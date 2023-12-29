@@ -32,19 +32,19 @@ pipeline {
             steps {
                 sh 'mvn -s settings.xml -DskipTests install'
             }
-            // post {
-            //     success {
-            //         echo 'Now Archiving...'
-            //         archiveArtifacts artifacts: '**/target/*.war'
-            //     }
-            // }
+            post {
+                success {
+                    echo 'Now Archiving...'
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+            }
         }
 
-	// stage('UNIT TEST'){
-    //         steps {
-    //             sh 'mvn test'
-    //         }
-    //     }
+	stage('Test'){
+            steps {
+                sh 'mvn test'
+            }
+        }
 
 	// stage('INTEGRATION TEST'){
     //         steps {
@@ -52,16 +52,16 @@ pipeline {
     //         }
     //     }
 		
-    //     stage ('CODE ANALYSIS WITH CHECKSTYLE'){
-    //         steps {
-    //             sh 'mvn checkstyle:checkstyle'
-    //         }
-    //         post {
-    //             success {
-    //                 echo 'Generated Analysis Result'
-    //             }
-    //         }
-    //     }
+        stage ('Checkstyle Analysis'){
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+            post {
+                success {
+                    echo 'Generated Analysis Result'
+                }
+            }
+        }
 
     //     stage('CODE ANALYSIS with SONARQUBE') {
           
